@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import urllib3, requests, re, csv, sys, os, time, html5lib, mysql.connector
-import eventall_credentials
+import eventall2016_credentials
+
 
 def connectWeb(url):
     try:
@@ -11,7 +12,8 @@ def connectWeb(url):
         return html
     except Exception as e:
         print ("{}... does not exist..".format(url))
-        
+
+
 def main():
     dataList = []
     months = [
@@ -42,7 +44,7 @@ def main():
             print (dataList[i])
 
     #connecting to MySQL
-    config = eventall_credentials()
+    config = eventall2016_credentials()
 
     cnx = mysql.connector.connect(**config)
     cursor = cnx.cursor()

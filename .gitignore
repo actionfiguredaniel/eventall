@@ -1,4 +1,4 @@
-crawler/keys.py
-crawler/twitter_stream.json
 .idea/*
-crawler/eventall_credential.py
+crawler/twitter_keys.py
+crawler/twitter_stream.json
+crawler/eventall2016_credentials.py
