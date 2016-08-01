@@ -2,3 +2,4 @@
 crawler/twitter_keys.py
 crawler/twitter_stream.json
 crawler/eventall2016_credentials.py
+*.pyc

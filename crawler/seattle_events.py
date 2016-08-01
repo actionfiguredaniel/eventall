@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import urllib3, requests, re, csv, sys, os, time, html5lib, mysql.connector
-import eventall2016_credentials
+from eventall2016_credentials import *
 
 
 def connectWeb(url):
