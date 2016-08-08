@@ -4,3 +4,6 @@ crawler/twitter_stream.json
 crawler/eventall2016_credentials.py
 *.pyc
 api/eventall2016_credentials.py
+twitter_keys.py
+twitter_stream_errors.json
+twitter_stream.json
