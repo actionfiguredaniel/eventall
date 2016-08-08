@@ -19,10 +19,16 @@ from eventall2016_credentials import *
 class StdOutListener(StreamListener):
 
     def on_data(self, data):
-        with open('twitter_stream.json', 'a') as file:
-            file.write(data + ',')
-        db_post(json.loads(data))
         print(data)
+
+        post_status = db_post(json.loads(data))
+
+        if post_status:
+            return True
+        else:
+            with open('twitter_stream_errors.json', 'a') as file:
+                file.write(data)
+
         return True
 
     def on_error(self, status):
@@ -43,17 +49,30 @@ def db_post(data):
     data['data'] = json.dumps(data).replace('"', "''")
     data['text'] = urllib.parse.quote(data['text'])
     data['created_at'] = datetime.datetime.strptime(
-        data['created_at'], '%a %b %d %H:%M:%S %z %Y').strftime('%Y-%m-%d %H:%M:%S')
+    data['created_at'], '%a %b %d %H:%M:%S %z %Y').strftime('%Y-%m-%d %H:%M:%S')
     config = eventall2016_credentials()
-    cnx = mysql.connector.connect(**config)
-    cursor = cnx.cursor()
 
     query = '''INSERT INTO twitter2016 (tweet_timestamp, tweet_text, tweet_json)
     VALUES ("{created_at}", "{text}", "{data}");'''.format(**data)
-    print(query)
-    cursor.execute(query)
-    cnx.commit()
-    return True
+    cnx = mysql.connector.connect(**config)
+    cursor = cnx.cursor()
+
+    try:
+        cursor.execute(query)
+        cnx.commit()
+        status = True
+
+    except mysql.connector.Error as e:
+        cnx.rollback()
+        status = False
+
+    finally:
+        cursor.close()
+        cnx.close()
+
+    print('Post status: ' + str(status))
+
+    return status
 
 
 if __name__ == '__main__':
