@@ -6,10 +6,10 @@ def query_runner():
     config = eventall2016_credentials()
 
     query = '''
-SELECT CAST(  `tweet_timestamp` AS DATE ) DATE, COUNT( * ) AS count
-FROM  `twitter2016`
-GROUP BY CAST(  `tweet_timestamp` AS DATE )
-ORDER BY CAST(  `tweet_timestamp` AS DATE )
+SELECT CAST('tweet_timestamp' AS DATE) DATE, COUNT(*) AS count
+FROM  'twiter2016'
+GROUP BY CAST('tweet_timestamp' AS DATE)
+ORDER BY CAST('tweet_timestamp' AS DATE)
 ;'''
     cnx = mysql.connector.connect(**config)
     cursor = cnx.cursor()
